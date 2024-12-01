@@ -3,6 +3,8 @@ import './style/home.scss'
 import { GrRotateLeft, GrRotateRight } from 'react-icons/gr'
 import { CgMergeHorizontal, CgMergeVertical } from 'react-icons/cg'
 import { IoIosImage, IoMdRedo, IoMdUndo } from 'react-icons/io'
+import ReactCrop from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
 
 const Home = () => {
     const filterElement = [
@@ -38,25 +40,29 @@ const Home = () => {
         },
     ]
 
-    const [property, setProperty]=useState({
-        name:'brightness',
-        maxValue:200
+    const [property, setProperty] = useState({
+        name: 'brightness',
+        maxValue: 200
     })
+
+    const [details, setDetails] = useState('')
+
+    const [crop, setCrop] = useState('')
 
     const [state, setState] = useState({
         image: '',
-        brightness:100,
-        grayscale:0,
-        sepia:0,
-        saturate:100,
-        contrast:100,
-        hueRotate:0,
+        brightness: 100,
+        grayscale: 0,
+        sepia: 0,
+        saturate: 100,
+        contrast: 100,
+        hueRotate: 0,
         rotate: 0,
-        vertical : 1,
-        horizontal : 1
+        vertical: 1,
+        horizontal: 1
     })
 
-    const inputHandle=(e)=>{
+    const inputHandle = (e) => {
         setState({
             ...state,
             [e.target.name]: e.target.value
@@ -64,31 +70,31 @@ const Home = () => {
         })
     }
 
-    const leftRotate=()=>{
+    const leftRotate = () => {
         setState({
             ...state,
-            rotate:state.rotate - 90
+            rotate: state.rotate - 90
         })
     }
 
-    const rightRotate=()=>{
+    const rightRotate = () => {
         setState({
             ...state,
-            rotate:state.rotate + 90
+            rotate: state.rotate + 90
         })
     }
 
-    const verticalFlip=()=>{
+    const verticalFlip = () => {
         setState({
             ...state,
-            vertical:state.vertical ===1 ? -1: 1
+            vertical: state.vertical === 1 ? -1 : 1
         })
     }
 
-    const horizontalFlip=()=>{
+    const horizontalFlip = () => {
         setState({
             ...state,
-            horizontal:state.horizontal ===1 ? -1: 1
+            horizontal: state.horizontal === 1 ? -1 : 1
         })
     }
 
@@ -107,7 +113,70 @@ const Home = () => {
             reader.readAsDataURL(e.target.files[0])
         }
     }
-    // console.log(property)
+
+
+    const handleCrop = () => {
+        const canvas = document.createElement('canvas')
+        // console.log(details.naturalWidth)
+        const scaleX = details.naturalWidth / details.width
+        const scaleY = details.naturalHeight / details.height
+
+        canvas.width = crop.width
+        canvas.height = crop.height
+
+        const ctx = canvas.getContext('2d')
+
+        ctx.drawImage(
+            details,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height
+        )
+
+        const base64Url = canvas.toDataURL('image/jpg')
+        setState({
+            ...state, image: base64Url
+        })
+    }
+
+    const saveImage = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = details.naturalWidth
+        canvas.height = details.naturalHeight
+
+        const ctx = canvas.getContext('2d')
+
+        ctx.filter = `brightness(${state.brightness}%) 
+                                                grayscale(${state.grayscale}%) 
+                                                sepia(${state.sepia}%) 
+                                                saturate(${state.saturate}%) 
+                                                contrast(${state.contrast}%) 
+                                                hue-rotate(${state.hueRotate}deg)`
+
+        ctx.translate(canvas.width/2, canvas.height/2)
+        ctx.rotate(state.rotate* Math.PI/180)
+        ctx.scale(state.horizontal, state.vertical)
+
+        ctx.drawImage(
+            details,
+            -canvas.width/2,
+            -canvas.height/2,
+            canvas.width,
+            canvas.height
+        )
+
+        const link= document.createElement('a')
+        link.download='image_edit.jpg'
+        link.href = canvas.toDataURL()
+        link.click()
+    }
+
+    // console.log(details)
     return (
         <div className='image_editor'>
             <div className="card">
@@ -123,8 +192,8 @@ const Home = () => {
                                     {
                                         filterElement && filterElement.map((item, index) => (
                                             <button
-                                            className={property.name === item.name? 'active' : ""} 
-                                            onClick={()=>setProperty(item)} key={index}>{item.name}</button>
+                                                className={property.name === item.name ? 'active' : ""}
+                                                onClick={() => setProperty(item)} key={index}>{item.name}</button>
                                         ))
                                     }
                                 </div>
@@ -160,18 +229,25 @@ const Home = () => {
                             } */}
 
                             {
-                                state.image ? 
-                                <img 
-                                style={{ filter: `brightness(${state.brightness}%) 
-                                    grayscale(${state.grayscale}%) 
-                                    sepia(${state.sepia}%) 
-                                    saturate(${state.saturate}%) 
-                                    contrast(${state.contrast}%) 
-                                    hue-rotate(${state.hueRotate}deg)` ,
+                                state.image ?
 
-                                    transform:`rotate(${state.rotate}deg) scale(${state.vertical}, ${state.horizontal})`
-                                }}
-                                 src={state.image} alt="" /> :
+                                    <ReactCrop crop={crop} onChange={c => setCrop(c)}>
+                                        <img
+                                            onLoad={(e) => setDetails(e.currentTarget)}
+                                            style={{
+                                                filter: `brightness(${state.brightness}%) 
+                                                grayscale(${state.grayscale}%) 
+                                                sepia(${state.sepia}%) 
+                                                saturate(${state.saturate}%) 
+                                                contrast(${state.contrast}%) 
+                                                hue-rotate(${state.hueRotate}deg)`,
+
+                                                transform: `rotate(${state.rotate}deg) scale(${state.vertical}, ${state.horizontal})`
+                                            }}
+                                            src={state.image} alt="" />
+                                    </ReactCrop>
+
+                                    :
 
                                     <label htmlFor="choose">
                                         <IoIosImage />
@@ -183,7 +259,10 @@ const Home = () => {
                         <div className="image_select">
                             <button className='undo'><IoMdUndo /></button>
                             <button className='redo'><IoMdRedo /></button>
-                            <button className='crop'>Crop Image</button>
+                            {
+                                crop &&
+                                <button className='crop' onClick={handleCrop}>Crop Image</button>
+                            }
                             <label htmlFor="choose">Choose Image</label>
                             <input onChange={imageHandle} type="file" id='choose' />
                         </div>
