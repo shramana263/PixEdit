@@ -5,6 +5,7 @@ import { CgMergeHorizontal, CgMergeVertical } from 'react-icons/cg'
 import { IoIosImage, IoMdRedo, IoMdUndo } from 'react-icons/io'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import storeData from './LinkedList'
 
 const Home = () => {
     const filterElement = [
@@ -15,12 +16,12 @@ const Home = () => {
         },
         {
             name: 'grayscale',
-            maxValue: 200,
+            maxValue: 100,
 
         },
         {
             name: 'sepia',
-            maxValue: 200,
+            maxValue: 100,
 
         },
         {
@@ -35,7 +36,7 @@ const Home = () => {
         },
         {
             name: 'hueRotate',
-            maxValue: 200,
+            maxValue: 360,
 
         },
     ]
@@ -68,6 +69,20 @@ const Home = () => {
             [e.target.name]: e.target.value
 
         })
+
+        // const stateData= state
+        // stateData[e.target.name]= e.target.value
+        // console.log(stateData)
+
+        // storeData.insert(stateData)
+    }
+
+    const handleFilter=(e)=>{
+        const stateData= state
+        stateData[e.target.name]= e.target.value
+        console.log(stateData)
+
+        storeData.insert(stateData)
     }
 
     const leftRotate = () => {
@@ -75,6 +90,11 @@ const Home = () => {
             ...state,
             rotate: state.rotate - 90
         })
+
+        const stateData =  state
+        stateData.rotate = state.rotate -90
+
+        storeData.insert(stateData)
     }
 
     const rightRotate = () => {
@@ -82,6 +102,11 @@ const Home = () => {
             ...state,
             rotate: state.rotate + 90
         })
+
+        const stateData =  state
+        stateData.rotate = state.rotate +90
+
+        storeData.insert(stateData)
     }
 
     const verticalFlip = () => {
@@ -89,14 +114,43 @@ const Home = () => {
             ...state,
             vertical: state.vertical === 1 ? -1 : 1
         })
-    }
 
+        const stateData =  state
+        stateData.vertical = state.vertical === 1 ? -1 : 1
+        console.log("verticalFlip: ",stateData)
+
+        storeData.insert(stateData)
+    }
     const horizontalFlip = () => {
         setState({
             ...state,
             horizontal: state.horizontal === 1 ? -1 : 1
         })
+
+        const stateData =  state
+        stateData.horizontal = state.horizontal === 1 ? -1 : 1
+        console.log("horizontalflip: ",stateData)
+
+        storeData.insert(stateData)
     }
+
+    const undo=()=>{
+        const data = storeData.undoEdit()
+
+        console.log(data)
+
+        if(data){
+            setState(data)
+        }
+    }
+
+    const redo=()=>{
+        const data = storeData.redoEdit()
+        if(data){
+            setState(data)
+        }
+    }
+
 
     const imageHandle = (e) => {
         if (e.target.files.length != 0) {
@@ -108,6 +162,21 @@ const Home = () => {
                     ...state,
                     image: reader.result
                 })
+
+                const stateData = {
+                    image: reader.result,
+                    brightness: 100,
+                    grayscale: 0,
+                    sepia: 0,
+                    saturate: 100,
+                    contrast: 100,
+                    hueRotate: 0,
+                    rotate: 0,
+                    vertical: 1,
+                    horizontal: 1
+                }
+
+                storeData.insert(stateData)
             }
 
             reader.readAsDataURL(e.target.files[0])
@@ -158,20 +227,20 @@ const Home = () => {
                                                 contrast(${state.contrast}%) 
                                                 hue-rotate(${state.hueRotate}deg)`
 
-        ctx.translate(canvas.width/2, canvas.height/2)
-        ctx.rotate(state.rotate* Math.PI/180)
+        ctx.translate(canvas.width / 2, canvas.height / 2)
+        ctx.rotate(state.rotate * Math.PI / 180)
         ctx.scale(state.horizontal, state.vertical)
 
         ctx.drawImage(
             details,
-            -canvas.width/2,
-            -canvas.height/2,
+            -canvas.width / 2,
+            -canvas.height / 2,
             canvas.width,
             canvas.height
         )
 
-        const link= document.createElement('a')
-        link.download='image_edit.jpg'
+        const link = document.createElement('a')
+        link.download = 'image_edit.jpg'
         link.href = canvas.toDataURL()
         link.click()
     }
@@ -200,10 +269,10 @@ const Home = () => {
                             </div>
                             <div className="filter_slider">
                                 <div className="label_bar">
-                                    <label htmlFor="range">Rotate</label>
-                                    <span>100%</span>
+                                    <label htmlFor="range">{property.name}</label>
+                                    <span>{state[property.name]}</span>
                                 </div>
-                                <input type="range" name={property.name} onChange={inputHandle} value={state[property.name]} max={property.maxValue} />
+                                <input type="range" name={property.name} onChange={inputHandle} onMouseUp={handleFilter} value={state[property.name]} max={property.maxValue} />
                             </div>
                             <div className="rotate">
                                 <label htmlFor="">Rotate & Flip</label>
@@ -218,7 +287,9 @@ const Home = () => {
 
                         <div className="reset">
                             <button>Reset</button>
-                            <button className='save'>Save Image</button>
+                            <button className='save'
+                            onClick={saveImage}
+                            >Save Image</button>
                         </div>
                     </div>
 
@@ -257,8 +328,8 @@ const Home = () => {
 
                         </div>
                         <div className="image_select">
-                            <button className='undo'><IoMdUndo /></button>
-                            <button className='redo'><IoMdRedo /></button>
+                            <button className='undo' onClick={undo}><IoMdUndo /></button>
+                            <button className='redo' onClick={redo}><IoMdRedo /></button>
                             {
                                 crop &&
                                 <button className='crop' onClick={handleCrop}>Crop Image</button>
