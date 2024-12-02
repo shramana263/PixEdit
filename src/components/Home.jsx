@@ -48,7 +48,7 @@ const Home = () => {
     })
 
     const [details, setDetails] = useState('')
-
+    const [count, setCount]= useState(1)
     const [crop, setCrop] = useState('')
 
     const [state, setState] = useState({
@@ -84,6 +84,7 @@ const Home = () => {
         // console.log(stateData)
 
         storeData.insert(stateData)
+        setCount(prev=>prev+1)
     }
 
     const leftRotate = () => {
@@ -96,6 +97,7 @@ const Home = () => {
         stateData.rotate = state.rotate - 90
 
         storeData.insert(stateData)
+        setCount(prev=>prev+1)
     }
 
     const rightRotate = () => {
@@ -108,6 +110,7 @@ const Home = () => {
         stateData.rotate = state.rotate + 90
 
         storeData.insert(stateData)
+        setCount(prev=>prev+1)
     }
 
     const verticalFlip = () => {
@@ -121,6 +124,7 @@ const Home = () => {
         // console.log("verticalFlip: ", stateData)
 
         storeData.insert(stateData)
+        setCount(prev=>prev+1)
     }
     const horizontalFlip = () => {
         setState({
@@ -133,12 +137,15 @@ const Home = () => {
         // console.log("horizontalflip: ", stateData)
 
         storeData.insert(stateData)
+        setCount(prev=>prev+1)
     }
 
     const undo = () => {
         const data = storeData.undoEdit()
 
-        console.log(data)
+        setCount(prev=>prev-1)
+        console.log("data",data)
+        console.log("count-",count)
 
         if (data) {
             setState(data)
@@ -147,6 +154,10 @@ const Home = () => {
 
     const redo = () => {
         const data = storeData.redoEdit()
+
+        setCount(prev=>prev+1)
+        console.log("count-", count)
+
         if (data) {
             setState(data)
         }
@@ -178,6 +189,7 @@ const Home = () => {
                 }
 
                 storeData.insert(stateData)
+                setCount(prev=>prev+1)
             }
 
             reader.readAsDataURL(e.target.files[0])
