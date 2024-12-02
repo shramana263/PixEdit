@@ -6,6 +6,7 @@ import { IoIosImage, IoMdRedo, IoMdUndo } from 'react-icons/io'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import storeData from './LinkedList'
+import { LuFlipHorizontal2, LuFlipVertical2 } from 'react-icons/lu'
 
 const Home = () => {
     const filterElement = [
@@ -77,10 +78,10 @@ const Home = () => {
         // storeData.insert(stateData)
     }
 
-    const handleFilter=(e)=>{
-        const stateData= state
-        stateData[e.target.name]= e.target.value
-        console.log(stateData)
+    const handleFilter = (e) => {
+        const stateData = state
+        stateData[e.target.name] = e.target.value
+        // console.log(stateData)
 
         storeData.insert(stateData)
     }
@@ -91,8 +92,8 @@ const Home = () => {
             rotate: state.rotate - 90
         })
 
-        const stateData =  state
-        stateData.rotate = state.rotate -90
+        const stateData = state
+        stateData.rotate = state.rotate - 90
 
         storeData.insert(stateData)
     }
@@ -103,8 +104,8 @@ const Home = () => {
             rotate: state.rotate + 90
         })
 
-        const stateData =  state
-        stateData.rotate = state.rotate +90
+        const stateData = state
+        stateData.rotate = state.rotate + 90
 
         storeData.insert(stateData)
     }
@@ -115,9 +116,9 @@ const Home = () => {
             vertical: state.vertical === 1 ? -1 : 1
         })
 
-        const stateData =  state
+        const stateData = state
         stateData.vertical = state.vertical === 1 ? -1 : 1
-        console.log("verticalFlip: ",stateData)
+        // console.log("verticalFlip: ", stateData)
 
         storeData.insert(stateData)
     }
@@ -127,26 +128,26 @@ const Home = () => {
             horizontal: state.horizontal === 1 ? -1 : 1
         })
 
-        const stateData =  state
+        const stateData = state
         stateData.horizontal = state.horizontal === 1 ? -1 : 1
-        console.log("horizontalflip: ",stateData)
+        // console.log("horizontalflip: ", stateData)
 
         storeData.insert(stateData)
     }
 
-    const undo=()=>{
+    const undo = () => {
         const data = storeData.undoEdit()
 
         console.log(data)
 
-        if(data){
+        if (data) {
             setState(data)
         }
     }
 
-    const redo=()=>{
+    const redo = () => {
         const data = storeData.redoEdit()
-        if(data){
+        if (data) {
             setState(data)
         }
     }
@@ -207,7 +208,7 @@ const Home = () => {
             crop.height
         )
 
-        const base64Url = canvas.toDataURL('image/jpg')
+        const base64Url = canvas.toDataURL('image/png')
         setState({
             ...state, image: base64Url
         })
@@ -229,7 +230,7 @@ const Home = () => {
 
         ctx.translate(canvas.width / 2, canvas.height / 2)
         ctx.rotate(state.rotate * Math.PI / 180)
-        ctx.scale(state.horizontal, state.vertical)
+        ctx.scale(state.vertical, state.horizontal)
 
         ctx.drawImage(
             details,
@@ -240,9 +241,30 @@ const Home = () => {
         )
 
         const link = document.createElement('a')
-        link.download = 'image_edit.jpg'
+        link.download = 'image_edit.png'
         link.href = canvas.toDataURL()
         link.click()
+    }
+
+    const handleReset = () => {
+        setState({
+            ...state,
+            brightness: 100,
+            grayscale: 0,
+            sepia: 0,
+            saturate: 100,
+            contrast: 100,
+            hueRotate: 0,
+            rotate: 0,
+            vertical: 1,
+            horizontal: 1
+        })
+
+        console.log(state)
+
+        storeData.deleteAllNodes()
+        console.log(storeData)
+
     }
 
     // console.log(details)
@@ -250,7 +272,7 @@ const Home = () => {
         <div className='image_editor'>
             <div className="card">
                 <div className="card_header">
-                    <h2> ---- Image Editor ---- </h2>
+                    <h2> ---- PixEdit ---- </h2>
                 </div>
                 <div className="card_body">
                     <div className="sidebar">
@@ -279,16 +301,16 @@ const Home = () => {
                                 <div className="icon">
                                     <div onClick={leftRotate}><GrRotateLeft /></div>
                                     <div onClick={rightRotate}><GrRotateRight /></div>
-                                    <div onClick={verticalFlip}><CgMergeVertical /></div>
-                                    <div onClick={horizontalFlip}><CgMergeHorizontal /></div>
+                                    <div onClick={horizontalFlip}><LuFlipVertical2 /></div>
+                                    <div onClick={verticalFlip}><LuFlipHorizontal2 /></div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="reset">
-                            <button>Reset</button>
+                            <button onClick={handleReset}>Reset</button>
                             <button className='save'
-                            onClick={saveImage}
+                                onClick={saveImage}
                             >Save Image</button>
                         </div>
                     </div>

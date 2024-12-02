@@ -49,6 +49,17 @@ class LinkedList{
             return null
         }
     }
+
+    deleteAllNodes() {
+        // while(this.prev!=null){
+        //     this.current = this.current.prev
+        // }
+        // this.current.next = null
+        this.current.data= this.head.data
+        this.current.prev= null
+        this.head.next=null
+        this.current.next=this.head.next
+    }
 }
 
 const storeData = new LinkedList()
