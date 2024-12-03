@@ -321,7 +321,7 @@ const Home = () => {
         if (data) {
             setOriginalImage(data)
         }
-        setOriginal(true)
+        setOriginal(prev=>!prev)
     }
 
     // console.log(details)
@@ -412,7 +412,7 @@ const Home = () => {
                             </div>
 
                             <div className='compare_images' >
-                                <MdOutlineCompare onMouseDown={getOriginalImage} onMouseUp={()=>setOriginal(false)} />
+                                <MdOutlineCompare onClick={getOriginalImage}  />
                             </div>
                         </div>
                     </div>
