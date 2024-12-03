@@ -288,7 +288,7 @@ const Home = () => {
         <div className='image_editor'>
             <div className="card">
                 <div className="card_header">
-                    <h2> ---- PixEdit ---- </h2>
+                    <h2>~ Pix-Edit ~</h2>
                 </div>
                 <div className="card_body">
                 <div className="image_section">

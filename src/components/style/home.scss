@@ -18,8 +18,8 @@
             padding-bottom: 15px;
 
             h2 {
-                text-transform: uppercase;
-                color: #e52fcf;
+                color: #04007a;
+                font-family: Georgia, 'Times New Roman', Times, serif;
             }
         }
 
@@ -264,6 +264,14 @@
                             display: grid;
                             grid-template-columns: repeat(4, 1fr);
                             grid-gap: 4px;
+                        }
+                    }
+                }
+
+                .image_section{
+                    .image{
+                        label{
+                            width: 100%;
                         }
                     }
                 }
