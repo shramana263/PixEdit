@@ -1,0 +1,35 @@
+.modal{
+    border-radius:6px;
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0px -1px 10px 0px #0000005e;
+
+    p{
+        font-weight: 600;
+    }
+
+    .button_container{
+        display: flex;
+        justify-self: end;
+        align-items: center;
+        gap: 5px;
+        margin-top: 15px;
+
+        div{
+            padding: 2px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .cancel{
+            color: #c70404;
+        }
+        .reset{
+            background-color: #032aebe4;
+            border-radius: 4px ;
+            color: #fff;
+            padding: 6px;
+        }
+
+    }
+}

@@ -7,8 +7,12 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import storeData from './LinkedList'
 import { LuFlipHorizontal2, LuFlipVertical2 } from 'react-icons/lu'
+import Modal from './Modal'
 
 const Home = () => {
+
+    const [isResetModalOpen, setResetModalOpen] = useState(false)
+
     const filterElement = [
         {
             name: 'brightness',
@@ -48,7 +52,7 @@ const Home = () => {
     })
 
     const [details, setDetails] = useState('')
-    const [count, setCount]= useState(1)
+    const [count, setCount] = useState(1)
     const [crop, setCrop] = useState('')
 
     const [state, setState] = useState({
@@ -84,7 +88,7 @@ const Home = () => {
         // console.log(stateData)
 
         storeData.insert(stateData)
-        setCount(prev=>prev+1)
+        setCount(prev => prev + 1)
     }
 
     const leftRotate = () => {
@@ -97,7 +101,7 @@ const Home = () => {
         stateData.rotate = state.rotate - 90
 
         storeData.insert(stateData)
-        setCount(prev=>prev+1)
+        setCount(prev => prev + 1)
     }
 
     const rightRotate = () => {
@@ -110,7 +114,7 @@ const Home = () => {
         stateData.rotate = state.rotate + 90
 
         storeData.insert(stateData)
-        setCount(prev=>prev+1)
+        setCount(prev => prev + 1)
     }
 
     const verticalFlip = () => {
@@ -124,7 +128,7 @@ const Home = () => {
         // console.log("verticalFlip: ", stateData)
 
         storeData.insert(stateData)
-        setCount(prev=>prev+1)
+        setCount(prev => prev + 1)
     }
     const horizontalFlip = () => {
         setState({
@@ -137,15 +141,15 @@ const Home = () => {
         // console.log("horizontalflip: ", stateData)
 
         storeData.insert(stateData)
-        setCount(prev=>prev+1)
+        setCount(prev => prev + 1)
     }
 
     const undo = () => {
         const data = storeData.undoEdit()
 
-        setCount(prev=>prev-1)
-        console.log("data",data)
-        console.log("count-",count)
+        setCount(prev => prev - 1)
+        console.log("data", data)
+        console.log("count-", count)
 
         if (data) {
             setState(data)
@@ -155,7 +159,7 @@ const Home = () => {
     const redo = () => {
         const data = storeData.redoEdit()
 
-        setCount(prev=>prev+1)
+        setCount(prev => prev + 1)
         console.log("count-", count)
 
         if (data) {
@@ -189,7 +193,7 @@ const Home = () => {
                 }
 
                 storeData.insert(stateData)
-                setCount(prev=>prev+1)
+                setCount(prev => prev + 1)
             }
 
             reader.readAsDataURL(e.target.files[0])
@@ -320,7 +324,7 @@ const Home = () => {
                         </div>
 
                         <div className="reset">
-                            <button onClick={handleReset}>Reset</button>
+                            <button onClick={()=>setResetModalOpen(true)}>Reset</button>
                             <button className='save'
                                 onClick={saveImage}
                             >Save Image</button>
@@ -374,6 +378,12 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            {
+                isResetModalOpen &&
+                <div className='modal_container'>
+                    <Modal setResetModalOpen={setResetModalOpen} />
+                </div>
+            }
         </div>
     )
 }

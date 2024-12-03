@@ -213,4 +213,14 @@
             }
         }
     }
+
+    .modal_container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        
+    }
 }
