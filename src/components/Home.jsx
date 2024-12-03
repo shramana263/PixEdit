@@ -291,47 +291,7 @@ const Home = () => {
                     <h2> ---- PixEdit ---- </h2>
                 </div>
                 <div className="card_body">
-                    <div className="sidebar">
-                        <div className="side_body">
-                            <div className="filter_section">
-                                <span>Filters</span>
-                                <div className="filter_key">
-                                    {
-                                        filterElement && filterElement.map((item, index) => (
-                                            <button
-                                                className={property.name === item.name ? 'active' : ""}
-                                                onClick={() => setProperty(item)} key={index}>{item.name}</button>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                            <div className="filter_slider">
-                                <div className="label_bar">
-                                    <label htmlFor="range">{property.name}</label>
-                                    <span>{state[property.name]}</span>
-                                </div>
-                                <input type="range" name={property.name} onChange={inputHandle} onMouseUp={handleFilter} value={state[property.name]} max={property.maxValue} />
-                            </div>
-                            <div className="rotate">
-                                <label htmlFor="">Rotate & Flip</label>
-                                <div className="icon">
-                                    <div onClick={leftRotate}><GrRotateLeft /></div>
-                                    <div onClick={rightRotate}><GrRotateRight /></div>
-                                    <div onClick={horizontalFlip}><LuFlipVertical2 /></div>
-                                    <div onClick={verticalFlip}><LuFlipHorizontal2 /></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="reset">
-                            <button onClick={()=>setResetModalOpen(true)}>Reset</button>
-                            <button className='save'
-                                onClick={saveImage}
-                            >Save Image</button>
-                        </div>
-                    </div>
-
-                    <div className="image_section">
+                <div className="image_section">
                         <div className="image">
                             {/* {
                                 console.log(state.brightness)
@@ -376,6 +336,47 @@ const Home = () => {
                             <input onChange={imageHandle} type="file" id='choose' />
                         </div>
                     </div>
+                    <div className="sidebar">
+                        <div className="side_body">
+                            <div className="filter_section">
+                                <span>Filters</span>
+                                <div className="filter_key">
+                                    {
+                                        filterElement && filterElement.map((item, index) => (
+                                            <button
+                                                className={property.name === item.name ? 'active' : ""}
+                                                onClick={() => setProperty(item)} key={index}>{item.name}</button>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                            <div className="filter_slider">
+                                <div className="label_bar">
+                                    <label htmlFor="range">{property.name}</label>
+                                    <span>{state[property.name]}</span>
+                                </div>
+                                <input type="range" name={property.name} onChange={inputHandle} onMouseUp={handleFilter} value={state[property.name]} max={property.maxValue} />
+                            </div>
+                            <div className="rotate">
+                                <label htmlFor="">Rotate & Flip</label>
+                                <div className="icon">
+                                    <div onClick={leftRotate}><GrRotateLeft /></div>
+                                    <div onClick={rightRotate}><GrRotateRight /></div>
+                                    <div onClick={horizontalFlip}><LuFlipVertical2 /></div>
+                                    <div onClick={verticalFlip}><LuFlipHorizontal2 /></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="reset">
+                            <button onClick={()=>setResetModalOpen(true)}>Reset</button>
+                            <button className='save'
+                                onClick={saveImage}
+                            >Save Image</button>
+                        </div>
+                    </div>
+
+                   
                 </div>
             </div>
             {

@@ -26,13 +26,18 @@
         .card_body {
             display: flex;
             justify-content: center;
+            gap: 10px;
 
             .sidebar {
 
-                .reset{
+                .reset {
                     margin-top: 20px;
-                    button{
-                        background-color:#f33555;
+                    display: flex;
+                    justify-self: end;
+                    margin-right: 10px;
+
+                    button {
+                        background-color: #f33555;
                         padding: 8px;
                         border-radius: 3px;
                         outline: none;
@@ -43,7 +48,8 @@
                         text-transform: capitalize;
                         font-size: 15px;
                     }
-                    .save{
+
+                    .save {
                         background-color: #e335f3 !important;
                         margin-left: 5px;
                     }
@@ -117,7 +123,7 @@
                             grid-template-columns: repeat(4, 1fr);
                             grid-gap: 5px;
 
-                            div{
+                            div {
                                 border: 1px solid #c5c2c2;
                                 padding: 8px 5px;
                                 display: flex;
@@ -130,13 +136,13 @@
                 }
             }
 
-            .image_section{
+            .image_section {
                 margin-left: 8px;
                 width: 350px;
                 background-color: #f0f0f0;
                 height: 300px;
 
-                .image{
+                .image {
                     width: 100%;
                     height: 100%;
                     display: flex;
@@ -144,15 +150,16 @@
                     align-items: center;
                     overflow: hidden;
 
-                    img{
+                    img {
                         object-fit: scale-down;
                         transition: all .5s;
                         width: 100%;
                         height: 100%;
 
                     }
-                    label{
-                        width:100%;
+
+                    label {
+                        width: 100%;
                         height: 100%;
                         display: flex;
                         border: dotted;
@@ -161,26 +168,30 @@
                         justify-content: center;
                         align-items: center;
                         flex-direction: column;
-                        svg{
+
+                        svg {
                             font-size: 40px;
                             color: #b4acac;
 
                         }
-                        span{
+
+                        span {
                             color: #404040;
                         }
                     }
                 }
 
-                .image_select{
+                .image_select {
                     margin: 20px 0px;
                     display: flex;
-                    justify-content: flex-end;
-                    input{
+                    justify-content: flex-start;
+
+                    input {
                         display: none;
                     }
 
-                    label,button{
+                    label,
+                    button {
                         padding: 8px;
                         border-radius: 3px;
                         outline: none;
@@ -192,7 +203,8 @@
                         font-size: 15px;
                     }
 
-                    .redo,.undo{
+                    .redo,
+                    .undo {
                         background-color: #4a55f3;
                         margin-left: 5px;
                         color: #fff;
@@ -200,12 +212,12 @@
                         font-size: 18px;
                     }
 
-                    .crop{
+                    .crop {
                         background-color: #8e33b7;
                         margin-left: 5px;
                     }
 
-                    label{
+                    label {
                         background-color: #115811;
                         margin-left: 5px;
                     }
@@ -214,13 +226,49 @@
         }
     }
 
-    .modal_container{
+    .modal_container {
         display: flex;
         justify-content: center;
         align-items: center;
         position: absolute;
         height: 100%;
         width: 100%;
-        
+
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .image_editor {
+
+        .card {
+            width: 100%;
+            height: 100%;
+
+            .card_header {
+                padding: 0;
+            }
+
+            .card_body {
+                display: flex;
+                height: 90%;
+                flex-direction: column;
+                justify-content: space-around;
+
+                .sidebar {
+                    width: 100%;
+
+                    .side_body {
+                        width: 100%;
+
+                        .filter_key {
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            grid-gap: 4px;
+                        }
+                    }
+                }
+
+            }
+        }
     }
 }
