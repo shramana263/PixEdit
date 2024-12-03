@@ -37,21 +37,22 @@
                     margin-right: 10px;
 
                     button {
-                        background-color: #f33555;
+                        background-color: #f3c435;
                         padding: 8px;
                         border-radius: 3px;
                         outline: none;
                         border: 1px solid #dad7d7;
                         cursor: pointer;
-                        color: #fff;
+                        color: #000;
                         font-weight: 600;
                         text-transform: capitalize;
                         font-size: 15px;
                     }
 
                     .save {
-                        background-color: #e335f3 !important;
+                        background-color: #000000 !important;
                         margin-left: 5px;
+                        color: #fff;
                     }
                 }
 
@@ -75,7 +76,7 @@
                         grid-gap: 8px;
 
                         button.active {
-                            background-color: #545dd8;
+                            background-color: #208b42;
                             color: #fff;
                         }
 
@@ -214,7 +215,7 @@
                     }
 
                     .crop {
-                        background-color: #8e33b7;
+                        background-color: #5e0bb7;
                         margin-left: 5px;
                     }
 
