@@ -31,7 +31,7 @@ class LinkedList{
     }
     undoEdit=()=>{
         const prevData = this.current.prev
-        if(prevData){
+        if(prevData!=null){
             this.current= prevData
             return prevData.data
         }
@@ -41,7 +41,7 @@ class LinkedList{
     }
     redoEdit=()=>{
         const nextData = this.current.next
-        if(nextData){
+        if(nextData!=null){
             this.current= nextData
             return nextData.data
         }
@@ -50,12 +50,25 @@ class LinkedList{
         }
     }
 
-    deleteAllNodes() {
+    deleteAllNodes=()=> {
         
         this.current.data= this.head.data
         this.current.prev= null
         this.head.next=null
         this.current.next=this.head.next
+    }
+
+    originalImage=()=>{
+        if(this.head.data!=null){
+            return this.head.data
+        }
+        else{
+            return null
+        }
+    }
+
+    lastEditedImage=()=>{
+        return this.current.data
     }
 }
 

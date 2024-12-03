@@ -8,6 +8,7 @@ import 'react-image-crop/dist/ReactCrop.css'
 import storeData from './LinkedList'
 import { LuFlipHorizontal2, LuFlipVertical2 } from 'react-icons/lu'
 import Modal from './Modal'
+import { MdOutlineCompare } from 'react-icons/md'
 
 const Home = () => {
 
@@ -54,6 +55,19 @@ const Home = () => {
     const [details, setDetails] = useState('')
     const [count, setCount] = useState(1)
     const [activeCrop, setActiveCrop] = useState(false)
+    const [isOriginal, setOriginal] = useState(false)
+    const [originalImage, setOriginalImage] = useState({
+        image: '',
+        brightness: 100,
+        grayscale: 0,
+        sepia: 0,
+        saturate: 100,
+        contrast: 100,
+        hueRotate: 0,
+        rotate: 0,
+        vertical: 1,
+        horizontal: 1
+    })
     const [crop, setCrop] = useState({
 
         height: 100,
@@ -95,7 +109,7 @@ const Home = () => {
     const handleFilter = (e) => {
         const stateData = state
         stateData[e.target.name] = e.target.value
-        // console.log(stateData)
+        console.log(stateData)
 
         storeData.insert(stateData)
         setCount(prev => prev + 1)
@@ -156,6 +170,7 @@ const Home = () => {
 
     const undo = () => {
         const data = storeData.undoEdit()
+        console.log(storeData)
 
         setCount(prev => prev - 1)
         console.log("data", data)
@@ -301,6 +316,14 @@ const Home = () => {
 
     }
 
+    const getOriginalImage = () => {
+        const data = storeData.originalImage()
+        if (data) {
+            setOriginalImage(data)
+        }
+        setOriginal(true)
+    }
+
     // console.log(details)
     return (
         <div className='image_editor'>
@@ -364,19 +387,33 @@ const Home = () => {
                             }
 
                         </div>
+                        {
+                            isOriginal &&
+                            <div className='original_image_container'>
+                                <img src={originalImage.image} alt="" className='original_image'/>
+                            </div>
+                        }
                         <div className="image_select">
-                            <button className='undo' onClick={undo}><IoMdUndo /></button>
-                            <button className='redo' onClick={redo}><IoMdRedo /></button>
-                            {
-                                !activeCrop &&
-                                <button className='crop' onClick={()=>setActiveCrop(true)}>Crop Image</button>
-                            }
-                            {
-                                activeCrop &&
-                                <button className='crop' onClick={handleCrop}>Apply</button>
-                            }
-                            <label htmlFor="choose">Choose Image</label>
-                            <input onChange={imageHandle} type="file" id='choose' />
+
+                            <div className='select_panel'>
+
+                                <button className='undo' onClick={undo}><IoMdUndo /></button>
+                                <button className='redo' onClick={redo}><IoMdRedo /></button>
+                                {
+                                    !activeCrop &&
+                                    <button className='crop' onClick={() => setActiveCrop(true)}>Crop Image</button>
+                                }
+                                {
+                                    activeCrop &&
+                                    <button className='crop' onClick={handleCrop}>Apply</button>
+                                }
+                                <label htmlFor="choose">Choose Image</label>
+                                <input onChange={imageHandle} type="file" id='choose' />
+                            </div>
+
+                            <div className='compare_images' >
+                                <MdOutlineCompare onMouseDown={getOriginalImage} onMouseUp={()=>setOriginal(false)} />
+                            </div>
                         </div>
                     </div>
                     <div className="sidebar">
