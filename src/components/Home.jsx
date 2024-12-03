@@ -382,7 +382,7 @@ const Home = () => {
             {
                 isResetModalOpen &&
                 <div className='modal_container'>
-                    <Modal setResetModalOpen={setResetModalOpen} />
+                    <Modal setResetModalOpen={setResetModalOpen} handleReset={handleReset}/>
                 </div>
             }
         </div>

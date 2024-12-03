@@ -1,7 +1,7 @@
 import React from 'react'
 import './style/modal.scss'
 
-const Modal = ({setResetModalOpen}) => {
+const Modal = ({setResetModalOpen, handleReset}) => {
   return (
     <>
       <div className='modal'>
@@ -13,7 +13,7 @@ const Modal = ({setResetModalOpen}) => {
 
         <div className='button_container'>
           <div className='cancel' onClick={()=>setResetModalOpen(false)}>Cancel</div>
-          <div className='reset'>Reset</div>
+          <div className='reset' onClick={handleReset}>Reset</div>
         </div>
       </div>
     </>
