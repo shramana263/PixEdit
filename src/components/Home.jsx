@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style/home.scss'
 import { GrRotateLeft, GrRotateRight } from 'react-icons/gr'
 import { CgMergeHorizontal, CgMergeVertical } from 'react-icons/cg'
@@ -52,10 +52,13 @@ const Home = () => {
         maxValue: 200
     })
 
+
+    const [linkedListState, setLinkedListState]= useState(null)
     const [details, setDetails] = useState('')
     const [count, setCount] = useState(1)
     const [activeCrop, setActiveCrop] = useState(false)
     const [isOriginal, setOriginal] = useState(false)
+
     const [originalImage, setOriginalImage] = useState({
         image: '',
         brightness: 100,
@@ -70,11 +73,11 @@ const Home = () => {
     })
     const [crop, setCrop] = useState({
 
-        height: 100,
+        height: 50,
         unit: "%",
-        width: 100,
-        x: 0,
-        y: 0
+        width: 50,
+        x: 20,
+        y: 20
 
     })
     // const[crop, setCrop]= useState('')
@@ -109,7 +112,7 @@ const Home = () => {
     const handleFilter = (e) => {
         const stateData = state
         stateData[e.target.name] = e.target.value
-        console.log(stateData)
+        // console.log(stateData)
 
         storeData.insert(stateData)
         setCount(prev => prev + 1)
@@ -170,11 +173,11 @@ const Home = () => {
 
     const undo = () => {
         const data = storeData.undoEdit()
-        console.log(storeData)
+        // console.log(storeData)
 
         setCount(prev => prev - 1)
-        console.log("data", data)
-        console.log("count-", count)
+        // console.log("data", data)
+        // console.log("count-", count)
 
         if (data) {
             setState(data)
@@ -185,7 +188,7 @@ const Home = () => {
         const data = storeData.redoEdit()
 
         setCount(prev => prev + 1)
-        console.log("count-", count)
+        // console.log("count-", count)
 
         if (data) {
             setState(data)
@@ -253,12 +256,15 @@ const Home = () => {
         )
 
         const base64Url = canvas.toDataURL('image/png')
-        setState({
+        const newState= {
             ...state, image: base64Url
-        })
+        }
+        // console.log("inside handleCrop : ", base64Url)
+        // console.log(newState.image)
+        setState(state=>newState)
 
-        const stateData = state
-        storeData.insert(stateData)
+        // console.log(state.image)
+        storeData.insert(newState)
 
         setActiveCrop(false)
     }
@@ -325,6 +331,14 @@ const Home = () => {
     }
 
     // console.log(details)
+
+
+    // useEffect(()=>{
+    //     setLinkedListState(prev=>storeData)
+    //     console.log(linkedListState)
+    // },[storeData])
+
+
     return (
         <div className='image_editor'>
             <div className="card">
@@ -344,7 +358,7 @@ const Home = () => {
                                     <>
                                         {
                                             activeCrop &&
-                                            <ReactCrop crop={crop} onChange={c => { setCrop(c) }}>
+                                            <ReactCrop crop={crop} onChange={c => { setCrop(c) }} className='crop_panel' >
                                                 <img
                                                     onLoad={(e) => setDetails(e.currentTarget)}
                                                     style={{
@@ -465,6 +479,16 @@ const Home = () => {
                     <Modal setResetModalOpen={setResetModalOpen} handleReset={handleReset} />
                 </div>
             }
+
+
+            {/* <div>
+                <p>linkedList print</p>
+                <p>
+
+                {state && JSON.stringify(state)}
+                </p>
+            </div> */}
+
         </div>
     )
 }

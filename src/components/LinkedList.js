@@ -14,6 +14,7 @@ class LinkedList{
     }
     insert(data){
         let newNode= new Node(data)
+        // console.log("inserted data : ",data.image)
         if(this.head==null){
             this.head =  newNode
             this.current = newNode
@@ -27,6 +28,7 @@ class LinkedList{
             newNode.prev = temp
             this.current= newNode
         }
+
 
     }
     undoEdit=()=>{

@@ -152,9 +152,38 @@
                     justify-content: center;
                     align-items: center;
                     overflow: hidden;
+                    padding: 8px;
 
-                   
+                    .image >*{
 
+                    }
+                    
+
+                    .ReactCrop {
+                        height: 100%;
+                        object-fit: scale-down;
+                        
+                        .ReactCrop__child-wrapper{
+                            max-height: inherit;
+                            height: 100%;
+                            width: 100%;
+                        }
+
+                        // .ReactCrop__crop-selection{
+                        //     height:200px !important;
+                        //     width: 200px !important;
+                        // }
+
+                        img {
+                            object-fit: scale-down;
+                            transition: all .5s;
+                            width: 100%;
+                            height: 100%;
+    
+                        }
+                          
+
+                    }
                     img {
                         object-fit: scale-down;
                         transition: all .5s;
@@ -162,6 +191,19 @@
                         height: 100%;
 
                     }
+                    // if child images height is greater than the width
+                    @media (max-aspect-ratio: 1/1) {
+                        .ReactCrop {
+                          height: max-content; /* set parent height */
+                        }
+                    }
+                    //if child images height is less than the width
+                    // @media (min-aspect-ratio: 1/1) {
+                    //     .ReactCrop {
+                    //       width: 200px; /* set parent height */
+                    //     }
+                    // }
+
 
                     label {
                         width: 100%;
@@ -186,7 +228,7 @@
                     }
                 }
 
-                .original_image_container{
+                .original_image_container {
                     width: 100%;
                     height: 300px;
                     background-color: #f0f0f0;
