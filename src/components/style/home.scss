@@ -7,19 +7,24 @@
     align-items: center;
 
     .card {
-        padding: 28px;
+        // padding: px;
         width: 700px;
         height: 80%;
         background-color: #fff;
         box-shadow: 0 8px 16px 0px rgb(201, 201, 201);
+        border-radius: 20px;
+        overflow: hidden;
 
         .card_header {
             text-align: center;
             padding-bottom: 15px;
+            background: #8a3bd0;
+            padding: 15px;
+
 
             h2 {
-                color: #04007a;
-                font-family: Georgia, 'Times New Roman', Times, serif;
+                color: #e6e6e9;
+                font-family: 'Segoe UI', system-ui, sans-serif;
             }
         }
 
@@ -27,6 +32,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+            padding: 28px;
 
             .sidebar {
 
@@ -66,6 +72,7 @@
                 .side_body {
                     width: 250px;
                     border: 1px solid #c3c5c4;
+                    border-radius: 5px;
                     margin-right: 8px;
                     height: 300px;
                     padding: 10px;
@@ -76,13 +83,13 @@
                         grid-gap: 8px;
 
                         button.active {
-                            background-color: #208b42;
+                            background-color: #8a3bd0;
                             color: #fff;
                         }
 
                         button {
                             padding: 8px;
-                            border-radius: 3px;
+                            border-radius: 8px;
                             border: 1px solid #dad7d7;
                             cursor: pointer;
                             color: #404040;
@@ -106,8 +113,24 @@
                             }
                         }
 
-                        input {
+                        input[type="range"] {
+                            -webkit-appearance: none;
+                            appearance: none;
                             width: 100%;
+                            height: 8px;
+                            background: #f0deff;
+                            border-radius: 4px;
+                            outline: none;
+
+                            &::-webkit-slider-thumb {
+                                -webkit-appearance: none;
+                                width: 16px;
+                                height: 16px;
+                                background: #8a3bd0;
+                                border-radius: 50%;
+                                cursor: pointer;
+                                transition: background 0.2s ease;
+                            }
                         }
                     }
 
@@ -154,16 +177,14 @@
                     overflow: hidden;
                     padding: 8px;
 
-                    .image >*{
+                    .image>* {}
 
-                    }
-                    
 
                     .ReactCrop {
                         height: 100%;
                         object-fit: scale-down;
-                        
-                        .ReactCrop__child-wrapper{
+
+                        .ReactCrop__child-wrapper {
                             max-height: inherit;
                             height: 100%;
                             width: 100%;
@@ -179,11 +200,12 @@
                             transition: all .5s;
                             width: 100%;
                             height: 100%;
-    
+
                         }
-                          
+
 
                     }
+
                     img {
                         object-fit: scale-down;
                         transition: all .5s;
@@ -191,12 +213,15 @@
                         height: 100%;
 
                     }
+
                     // if child images height is greater than the width
                     @media (max-aspect-ratio: 1/1) {
                         .ReactCrop {
-                          height: max-content; /* set parent height */
+                            height: max-content;
+                            /* set parent height */
                         }
                     }
+
                     //if child images height is less than the width
                     // @media (min-aspect-ratio: 1/1) {
                     //     .ReactCrop {
